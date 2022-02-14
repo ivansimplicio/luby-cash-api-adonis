@@ -10,7 +10,7 @@ export default class CreateTableUsers extends BaseSchema {
       table.string('email', 100).unique().notNullable()
       table.string('password', 150).notNullable()
       table.string('uuid_client', 100).unique()
-      table.enu('status', ['pending', 'approved', 'disapproved']).notNullable()
+      table.enu('status', ['', 'pending', 'approved', 'disapproved']).notNullable()
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })

@@ -1,6 +1,6 @@
 enum Roles {
-  ADMIN = 'admin',
-  CLIENT = 'client',
+  ADMIN = 1,
+  CLIENT = 2,
 }
 
 export default Roles
