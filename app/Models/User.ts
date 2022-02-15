@@ -23,6 +23,9 @@ export default class User extends BaseModel {
   public uuidClient: string
 
   @column()
+  public cpf: string
+
+  @column()
   public status: Status
 
   @column.dateTime({ autoCreate: true })

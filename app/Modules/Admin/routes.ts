@@ -1,5 +1,5 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
-  Route.resource('admin', 'AdminsController').apiOnly()
+  Route.resource('admins', 'AdminsController').apiOnly()
 }).middleware(['auth', 'isAdmin'])
