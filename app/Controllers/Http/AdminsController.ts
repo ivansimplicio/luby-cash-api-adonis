@@ -5,7 +5,7 @@ import User from 'App/Models/User'
 import { getOnlyAdminInfo } from 'App/Services/AdminService'
 import CreateAdmin from 'App/Validators/CreateAdminValidator'
 import UpdateAdmin from 'App/Validators/UpdateAdminValidator'
-import loadUserRoles from 'App/Services/UserService'
+import { loadUserRoles } from 'App/Services/UserService'
 
 export default class AdminsController {
   public async index({ response }: HttpContextContract) {
@@ -37,22 +37,24 @@ export default class AdminsController {
     return response.ok(getOnlyAdminInfo(result))
   }
 
-  public async update({ request, response, params }: HttpContextContract) {
+  public async update({ request, response, params, bouncer }: HttpContextContract) {
     const admin = await User.find(params.id)
     if (!admin) {
       return response.notFound()
     }
+    await bouncer.authorize('userHasAccess', admin)
     const payload = await request.validate(UpdateAdmin)
     const updatedAdmin = await admin.merge(payload).save()
     const result = await loadUserRoles(updatedAdmin)
     return response.ok(getOnlyAdminInfo(result))
   }
 
-  public async destroy({ response, params }: HttpContextContract) {
+  public async destroy({ response, params, bouncer }: HttpContextContract) {
     const admin = await User.find(params.id)
     if (!admin) {
       return response.notFound()
     }
+    await bouncer.authorize('userHasAccess', admin)
     await admin.delete()
     return response.noContent()
   }

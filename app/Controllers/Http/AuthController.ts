@@ -2,7 +2,7 @@ import User from 'App/Models/User'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import StandardError from 'App/Exceptions/Errors/StandardError'
 import LoginUser from 'App/Validators/LoginUserValidator'
-import loadUserRoles from 'App/Services/UserService'
+import { loadUserRoles } from 'App/Services/UserService'
 import { getOnlyAdminInfo } from 'App/Services/AdminService'
 
 export default class AuthController {

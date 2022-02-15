@@ -1,3 +1,4 @@
+import Roles from 'App/Enums/Roles'
 import User from 'App/Models/User'
 
 const loadUserRoles = async (user: User) => {
@@ -15,4 +16,14 @@ const setRoles = (user: User, userRoles: Array<string>) => {
   return { roles: userRoles, ...rest }
 }
 
-export default loadUserRoles
+const userHasRole = async (user: User, role: Roles) => {
+  await user.load('roles')
+  const roles: Array<number> = []
+  user.roles.forEach((element) => {
+    roles.push(element.roleId)
+  })
+  return roles.includes(role)
+}
+
+export { userHasRole }
+export { loadUserRoles }
