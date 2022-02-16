@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@adonisjs/assembler": "^5.4.1",
+    "@types/kafkajs": "^1.9.0",
     "adonis-preset-ts": "^2.1.0",
     "eslint": "^8.8.0",
     "eslint-config-prettier": "^8.3.0",
@@ -29,6 +30,7 @@
     "@adonisjs/core": "^5.4.2",
     "@adonisjs/lucid": "^16.3.2",
     "@adonisjs/repl": "^3.1.8",
+    "kafkajs": "^1.16.0",
     "luxon": "^2.3.0",
     "mysql": "^2.18.1",
     "phc-argon2": "^1.1.2",
