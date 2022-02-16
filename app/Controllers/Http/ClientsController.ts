@@ -1,3 +1,5 @@
+import Roles from 'App/Enums/Roles'
+import UserRoles from 'App/Models/UserRoles'
 import User from 'App/Models/User'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CreateClient from 'App/Validators/CreateClientValidator'
@@ -10,7 +12,14 @@ export default class ClientsController {
   public async store({ request, response }: HttpContextContract) {
     const payload = await request.validate(CreateClient)
     const { fullName, email, password, cpfNumber } = payload
-    await User.create({ name: fullName, email, password, cpf: cpfNumber, status: Status.PENDING })
+    const client = await User.create({
+      name: fullName,
+      email,
+      password,
+      cpf: cpfNumber,
+      status: Status.PENDING,
+    })
+    await UserRoles.create({ userId: client.id, roleId: Roles.CLIENT })
     new ProducerService().produceTopicCustomerRegistration(payload)
     return response.created()
   }
