@@ -18,10 +18,13 @@
 |
 */
 
+import ConsumerService from 'App/Services/Kafka/ConsumerService'
 import Route from '@ioc:Adonis/Core/Route'
 
 import 'App/Modules/Admin/routes'
 import 'App/Modules/Client/routes'
+
+new ConsumerService().consume('valued_client')
 
 Route.post('login', 'AuthController.login')
 

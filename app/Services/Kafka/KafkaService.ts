@@ -5,7 +5,7 @@ export default class KafkaService {
 
   constructor() {
     this.producer = new Kafka({
-      clientId: 'luby-cash-ms-producer',
+      clientId: 'luby-cash-api-producer',
       brokers: ['kafka:29092'],
     }).producer()
   }

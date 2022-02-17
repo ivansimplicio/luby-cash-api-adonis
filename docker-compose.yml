@@ -3,6 +3,8 @@ version: "3"
 networks:
   luby-cash:
     external: true
+  luby-cash-api:
+    driver: bridge
 
 services:
   app:
@@ -17,6 +19,7 @@ services:
       - /app/node_modules
     networks:
       - luby-cash
+      - luby-cash-api
     depends_on:
       - db
     ports:
@@ -33,7 +36,7 @@ services:
     expose:
       - '3306'
     networks:
-      - luby-cash
+      - luby-cash-api
     command: mysqld --innodb_use_native_aio=0 --default-authentication-plugin=mysql_native_password
     volumes:
       - /db/var/lib/mysql
