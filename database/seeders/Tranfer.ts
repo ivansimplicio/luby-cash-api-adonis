@@ -5,18 +5,13 @@ export default class TranferSeeder extends BaseSeeder {
   public async run() {
     await Transfer.createMany([
       {
-        cpfOrigin: '21505781078',
-        cpfDestination: '91512389005',
+        cpfOrigin: '222.222.222-22',
+        cpfDestination: '333.333.333-33',
         value: 250,
       },
       {
-        cpfOrigin: '21505781078',
-        cpfDestination: '33469009082',
-        value: 250,
-      },
-      {
-        cpfOrigin: '33469009082',
-        cpfDestination: '21505781078',
+        cpfOrigin: '333.333.333-33',
+        cpfDestination: '222.222.222-22',
         value: 150,
       },
     ])

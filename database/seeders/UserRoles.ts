@@ -10,10 +10,6 @@ export default class UserRolesSeeder extends BaseSeeder {
       },
       {
         userId: 2,
-        roleId: 1,
-      },
-      {
-        userId: 2,
         roleId: 2,
       },
       {
