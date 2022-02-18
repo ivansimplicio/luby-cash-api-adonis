@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import TransferValidator from 'App/Validators/TransferValidator'
-import validateTransaction from 'App/Services/TransferService'
+import makePixTransfer from 'App/Services/TransferService'
 
 export default class TransfersController {
   public async index({}: HttpContextContract) {}
@@ -8,7 +8,7 @@ export default class TransfersController {
   public async store({ auth, request, response }: HttpContextContract) {
     const payload = await request.validate(TransferValidator)
     if (auth.user) {
-      await validateTransaction({
+      await makePixTransfer({
         cpfOrigin: auth.user.cpf,
         cpfDestination: payload.cpf,
         value: payload.value,

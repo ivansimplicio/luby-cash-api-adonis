@@ -4,11 +4,18 @@ import User from 'App/Models/User'
 import TransactionException from 'App/Exceptions/TransactionException'
 import { convertToReal } from './Utils/Converter'
 import { findClientByCPF } from './ClientService'
+import ProducerService from './Kafka/ProducerService'
 
 interface TransferInterface {
   cpfOrigin: string
   cpfDestination: string
   value: number
+}
+
+const makePixTransfer = async (transfer: TransferInterface) => {
+  await validateTransaction(transfer)
+  await Transfer.create(transfer)
+  new ProducerService().produceTopicTransferMade(transfer)
 }
 
 const validateTransaction = async (transfer: TransferInterface) => {
@@ -25,11 +32,11 @@ const validateTransaction = async (transfer: TransferInterface) => {
   const client = await findClientByCPF(transfer.cpfOrigin)
   if (transfer.value > client.currentBalance) {
     throw new TransactionException(
-      `Your current balance is insufficient to carry out this transaction.
-        Current balance: ${convertToReal(client.currentBalance)}`
+      `Your current balance is insufficient to carry out this transaction. Current balance: ${convertToReal(
+        client.currentBalance
+      )}`
     )
   }
-  await Transfer.create(transfer)
 }
 
-export default validateTransaction
+export default makePixTransfer
