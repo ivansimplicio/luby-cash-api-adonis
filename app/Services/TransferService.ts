@@ -12,6 +12,21 @@ interface TransferInterface {
   value: number
 }
 
+const searchClientTransfers = async (cpf: string, params: any) => {
+  const transfers = await Transfer.query()
+    .select('cpf_origin', 'cpf_destination', 'value', 'createdAt')
+    .where((query) => {
+      query.where('cpf_origin', '=', cpf)
+      query.orWhere('cpf_destination', '=', cpf)
+    })
+    .andWhere((query) => {
+      if (params.from) query.andWhere('createdAt', '>=', params.from)
+      if (params.to) query.andWhere('createdAt', '<=', `${params.to}T23:59:59`)
+    })
+  const client = await findClientByCPF(cpf)
+  return { transfers, currentBalance: client.currentBalance }
+}
+
 const makePixTransfer = async (transfer: TransferInterface) => {
   await validateTransaction(transfer)
   await Transfer.create(transfer)
@@ -39,4 +54,5 @@ const validateTransaction = async (transfer: TransferInterface) => {
   }
 }
 
-export default makePixTransfer
+export { searchClientTransfers }
+export { makePixTransfer }

@@ -20,6 +20,10 @@ export default class UserRolesSeeder extends BaseSeeder {
         userId: 4,
         roleId: 2,
       },
+      {
+        userId: 5,
+        roleId: 2,
+      },
     ])
   }
 }
