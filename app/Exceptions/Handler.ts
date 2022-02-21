@@ -17,6 +17,11 @@ export default class ExceptionHandler extends HttpExceptionHandler {
     if (error.code === 'E_AUTHORIZATION_FAILURE') {
       return ctx.response.status(403).send(new StandardError('FORBIDDEN', 403, 'not authorized'))
     }
+    if (error.code === 'ER_WRONG_VALUE') {
+      return ctx.response
+        .status(404)
+        .send(new StandardError('BAD_REQUEST', 400, 'Invalid date. Use the yyyy-mm-dd format.'))
+    }
     return super.handle(error, ctx)
   }
 }

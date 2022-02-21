@@ -20,6 +20,4 @@ export default class TransfersController {
     }
     return response.noContent()
   }
-
-  public async show({}: HttpContextContract) {}
 }

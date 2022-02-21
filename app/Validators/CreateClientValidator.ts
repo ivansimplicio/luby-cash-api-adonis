@@ -13,7 +13,7 @@ export default class CreateClientValidator {
     password: schema.string({ trim: true }, [rules.minLength(8), rules.maxLength(30)]),
     phone: schema.string(),
     cpfNumber: schema.string({ trim: true }, [
-      rules.maxLength(14),
+      rules.cpfIsValid(),
       rules.unique({ table: 'users', column: 'cpf_number' }),
     ]),
     averageSalary: schema.number(),

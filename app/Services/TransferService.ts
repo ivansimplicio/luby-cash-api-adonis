@@ -5,6 +5,7 @@ import TransactionException from 'App/Exceptions/TransactionException'
 import { convertToReal } from './Utils/Converter'
 import { findClientByCPF } from './ClientService'
 import ProducerService from './Kafka/ProducerService'
+import ClientNotFoundException from 'App/Exceptions/ClientNotFoundException'
 
 interface TransferInterface {
   cpfOrigin: string
@@ -13,6 +14,10 @@ interface TransferInterface {
 }
 
 const searchClientTransfers = async (cpf: string, params: any) => {
+  const client = await findClientByCPF(cpf)
+  if (!client) {
+    throw new ClientNotFoundException()
+  }
   const transfers = await Transfer.query()
     .select('cpf_origin', 'cpf_destination', 'value', 'createdAt')
     .where((query) => {
@@ -23,8 +28,7 @@ const searchClientTransfers = async (cpf: string, params: any) => {
       if (params.from) query.andWhere('createdAt', '>=', params.from)
       if (params.to) query.andWhere('createdAt', '<=', `${params.to}T23:59:59`)
     })
-  const client = await findClientByCPF(cpf)
-  return { transfers, currentBalance: client.currentBalance }
+  return { extract: { transfers, currentBalance: client.currentBalance } }
 }
 
 const makePixTransfer = async (transfer: TransferInterface) => {
