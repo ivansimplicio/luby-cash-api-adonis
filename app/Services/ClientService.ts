@@ -3,7 +3,7 @@ import User from 'App/Models/User'
 import axios from 'axios'
 
 const completeClientRegistration = async (client: any) => {
-  const user = await User.findByOrFail('cpf', client.cpf)
+  const user = await User.findByOrFail('cpfNumber', client.cpfNumber)
   await user.merge(client).save()
 }
 

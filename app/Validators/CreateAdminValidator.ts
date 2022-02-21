@@ -5,7 +5,7 @@ export default class CreateAdminValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    name: schema.string({ trim: true }, [rules.maxLength(100)]),
+    fullName: schema.string({ trim: true }, [rules.maxLength(100)]),
     email: schema.string({ trim: true }, [
       rules.email(),
       rules.maxLength(100),

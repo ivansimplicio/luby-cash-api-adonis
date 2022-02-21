@@ -1,3 +1,4 @@
+import Status from 'App/Enums/Status'
 import User from 'App/Models/User'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import StandardError from 'App/Exceptions/Errors/StandardError'
@@ -10,6 +11,9 @@ export default class AuthController {
     const payload = await request.validate(LoginUser)
     try {
       const user = await User.findBy('email', payload.email)
+      if (user?.status === Status.DISAPPROVED || user?.status === Status.PENDING) {
+        throw new Error()
+      }
       const token = await auth.use('api').attempt(payload.email, payload.password, {
         expiresIn: '7days',
         name: user?.serialize().email,
@@ -22,7 +26,9 @@ export default class AuthController {
         return { token, user: result }
       }
     } catch {
-      return response.badRequest(new StandardError('BAD_REQUEST', 400, 'Invalid credentials'))
+      return response.badRequest(
+        new StandardError('BAD_REQUEST', 400, 'Invalid credentials or inactive registration')
+      )
     }
   }
 }

@@ -22,7 +22,7 @@ export default class PasswordsController {
     const url = request.completeUrl().replace(request.url(), '/reset-password')
     const resetPasswordUrlWithToken = `${url}?token=${token}`
     await new ProducerService().produceTopicForgotPassword({
-      name: user.name,
+      name: user.fullName,
       email,
       url: resetPasswordUrlWithToken,
     })

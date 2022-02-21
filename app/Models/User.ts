@@ -12,7 +12,7 @@ export default class User extends BaseModel {
   public id: number
 
   @column()
-  public name: string
+  public fullName: string
 
   @column()
   public email: string
@@ -24,7 +24,7 @@ export default class User extends BaseModel {
   public uuidClient: string
 
   @column()
-  public cpf: string
+  public cpfNumber: string
 
   @column()
   public status: Status

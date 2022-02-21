@@ -18,20 +18,14 @@ export default class ClientsController {
     const payload = await request.validate(CreateClient)
     const { fullName, email, password, cpfNumber } = payload
     const client = await User.create({
-      name: fullName,
+      fullName,
       email,
       password,
-      cpf: cpfNumber,
+      cpfNumber,
       status: Status.PENDING,
     })
     await UserRoles.create({ userId: client.id, roleId: Roles.CLIENT })
     new ProducerService().produceTopicCustomerRegistration(payload)
     return response.created()
   }
-
-  public async show({}: HttpContextContract) {}
-
-  public async update({}: HttpContextContract) {}
-
-  public async destroy({}: HttpContextContract) {}
 }

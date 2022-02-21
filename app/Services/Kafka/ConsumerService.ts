@@ -16,7 +16,7 @@ class ConsumerService {
     await this.consumer.connect()
     await this.consumer.subscribe({ topic, fromBeginning: false })
     await this.consumer.run({
-      eachMessage: async ({ topic, message }) => {
+      eachMessage: async ({ message }) => {
         if (message.value) {
           await completeClientRegistration(JSON.parse(message.value.toString()).content.user)
         }

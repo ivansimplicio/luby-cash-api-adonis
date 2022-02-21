@@ -37,7 +37,7 @@ const validateTransaction = async (transfer: TransferInterface) => {
   if (transfer.cpfOrigin === transfer.cpfDestination) {
     throw new TransactionException('You cannot make a transfer to yourself.')
   }
-  const beneficiary = await User.findByOrFail('cpf', transfer.cpfDestination)
+  const beneficiary = await User.findByOrFail('cpfNumber', transfer.cpfDestination)
   if (!(beneficiary.status === Status.APPROVED)) {
     throw new TransactionException('It was not possible to transfer to this CPF.')
   }

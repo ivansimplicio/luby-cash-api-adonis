@@ -13,7 +13,7 @@ export default class TransfersController {
     const payload = await request.validate(TransferValidator)
     if (auth.user) {
       await makePixTransfer({
-        cpfOrigin: auth.user.cpf,
+        cpfOrigin: auth.user.cpfNumber,
         cpfDestination: payload.cpf,
         value: payload.value,
       })

@@ -14,7 +14,7 @@ export default class CreateClientValidator {
     phone: schema.string(),
     cpfNumber: schema.string({ trim: true }, [
       rules.maxLength(14),
-      rules.unique({ table: 'users', column: 'cpf' }),
+      rules.unique({ table: 'users', column: 'cpf_number' }),
     ]),
     averageSalary: schema.number(),
     address: schema.object().members({

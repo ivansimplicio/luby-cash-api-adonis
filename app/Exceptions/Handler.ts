@@ -9,6 +9,11 @@ export default class ExceptionHandler extends HttpExceptionHandler {
   }
 
   public async handle(error: any, ctx: HttpContextContract): Promise<any> {
+    if (error.code === 'E_ROW_NOT_FOUND') {
+      return ctx.response
+        .status(404)
+        .send(new StandardError('NOT_FOUND', 404, 'non-existent or already used token'))
+    }
     if (error.code === 'E_AUTHORIZATION_FAILURE') {
       return ctx.response.status(403).send(new StandardError('FORBIDDEN', 403, 'not authorized'))
     }

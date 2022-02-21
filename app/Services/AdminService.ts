@@ -1,8 +1,9 @@
 const getOnlyAdminInfo = (data: any) => {
-  const { id, name, email, roles } = data
+  const { id, email, roles } = data
+  const fullName = data['full_name'] || data['fullName']
   const createdAt = data['created_at']
   const updatedAt = data['updated_at']
-  return { roles, id, name, email, createdAt, updatedAt }
+  return { roles, id, fullName, email, createdAt, updatedAt }
 }
 
 export { getOnlyAdminInfo }
