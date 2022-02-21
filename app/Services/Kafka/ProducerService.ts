@@ -1,6 +1,10 @@
 import Producer from 'App/Services/kafka/KafkaService'
 
 export default class ProducerService {
+  public async produceTopicForgotPassword(user: any) {
+    this.sendToTopic('forgot_password', { user })
+  }
+
   public async produceTopicTransferMade(transfer: any) {
     this.sendToTopic('transfer_made', { transfer })
   }

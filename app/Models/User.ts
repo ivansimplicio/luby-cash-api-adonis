@@ -3,6 +3,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, beforeSave, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import UserRoles from './UserRoles'
 import Hash from '@ioc:Adonis/Core/Hash'
+import LinkToken from './LinkToken'
 
 export default class User extends BaseModel {
   public static table = 'users'
@@ -38,6 +39,11 @@ export default class User extends BaseModel {
     foreignKey: 'userId',
   })
   public roles: HasMany<typeof UserRoles>
+
+  @hasMany(() => LinkToken, {
+    foreignKey: 'userId',
+  })
+  public tokens: HasMany<typeof LinkToken>
 
   @beforeSave()
   public static async hashPassword(user: User) {
