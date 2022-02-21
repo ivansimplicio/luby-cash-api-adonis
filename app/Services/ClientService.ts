@@ -1,3 +1,4 @@
+import Roles from 'App/Enums/Roles'
 import User from 'App/Models/User'
 import axios from 'axios'
 
@@ -11,5 +12,19 @@ const findClientByCPF = async (cpf: string) => {
   return result.data.client
 }
 
+const allClients = async (params: any) => {
+  const clients = await User.query()
+    .whereHas('roles', (query) => {
+      query.where('roleId', '=', Roles.CLIENT)
+    })
+    .andWhere((query) => {
+      if (params.status) query.where('status', '=', params.status)
+      if (params.from) query.andWhere('createdAt', '>=', params.from)
+      if (params.to) query.andWhere('createdAt', '<=', `${params.to}T23:59:59`)
+    })
+  return clients
+}
+
+export { allClients }
 export { findClientByCPF }
 export { completeClientRegistration }
