@@ -20,7 +20,7 @@ export default class AdminsController {
     const payload = await request.validate(CreateAdmin)
     const admin = await User.create(payload)
     await UserRoles.create({ userId: admin.id, roleId: Roles.ADMIN })
-    return response.created()
+    return response.created({ admin })
   }
 
   public async show({ response, params }: HttpContextContract) {

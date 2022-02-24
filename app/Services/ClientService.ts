@@ -25,6 +25,13 @@ const allClients = async (params: any) => {
   return clients
 }
 
+const getOnlyClientInfo = (client: any) => {
+  const { id, fullName, email, cpfNumber, createdAt, updatedAt } = client
+  return { id, fullName, email, cpfNumber, createdAt, updatedAt }
+}
+
+export { getOnlyClientInfo }
+
 export { allClients }
 export { findClientByCPF }
 export { completeClientRegistration }

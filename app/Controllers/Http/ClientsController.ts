@@ -5,7 +5,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CreateClient from 'App/Validators/CreateClientValidator'
 import Status from 'App/Enums/Status'
 import ProducerService from 'App/Services/Kafka/ProducerService'
-import { allClients } from 'App/Services/ClientService'
+import { allClients, getOnlyClientInfo } from 'App/Services/ClientService'
 
 export default class ClientsController {
   public async index({ request, response }: HttpContextContract) {
@@ -17,15 +17,16 @@ export default class ClientsController {
   public async store({ request, response }: HttpContextContract) {
     const payload = await request.validate(CreateClient)
     const { fullName, email, password, cpfNumber } = payload
-    const client = await User.create({
+    const clientCreated = await User.create({
       fullName,
       email,
       password,
       cpfNumber,
       status: Status.PENDING,
     })
-    await UserRoles.create({ userId: client.id, roleId: Roles.CLIENT })
+    await UserRoles.create({ userId: clientCreated.id, roleId: Roles.CLIENT })
     new ProducerService().produceTopicCustomerRegistration(payload)
-    return response.created()
+    const client = getOnlyClientInfo(clientCreated)
+    return response.created({ client })
   }
 }
